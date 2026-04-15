@@ -1,70 +1,71 @@
-<!--
-  Copyright (c) 2024 Intel Corporation
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-     http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
-
 <script lang="ts">
-	import MessageAvatar from "$lib/modules/chat/MessageAvatar.svelte";
-	import type { Message } from "$lib/shared/constant/Interface";
-	import MessageTimer from "./MessageTimer.svelte";
-	import { createEventDispatcher } from "svelte";
+  import MessageAvatar from "$lib/modules/chat/MessageAvatar.svelte";
+  import type { Message } from "$lib/shared/constant/Interface";
+  import MessageTimer from "./MessageTimer.svelte";
+  import { createEventDispatcher } from "svelte";
 
-	let dispatch = createEventDispatcher();
+  let dispatch = createEventDispatcher();
 
-	export let msg: Message;
-	export let time: string = "";
+  export let msg: Message;
+  export let time: string = "";
 </script>
 
+<!-- 💬 MESSAGE CONTAINER -->
 <div
-	class={msg.role === 0
-		? "flex w-full gap-3"
-		: "flex w-full items-center gap-3"}
-	data-testid={msg.role === 0
-		? "display-answer"
-		: "display-question"}
+  class={`flex w-full ${
+    msg.role === 0 ? "justify-start" : "justify-end"
+  } px-2 py-2`}
+  data-testid={msg.role === 0 ? "display-answer" : "display-question"}
 >
-	<div
-		class={msg.role === 0
-			? "flex aspect-square w-[3px]  items-center justify-center rounded bg-[#0597ff] max-sm:hidden"
-			: "flex aspect-square h-10 w-[3px] items-center justify-center rounded bg-[#000] max-sm:hidden"}
-	>
-		<MessageAvatar role={msg.role} />
-	</div>
-	<div class="group relative items-center">
-		<div>
-			<p
-				class=" max-w-[60vw] items-center whitespace-pre-line break-keep text-[0.8rem] leading-5 sm:max-w-[60rem]"
-			>
-				{@html msg.content}
-			</p>
-		</div>
-	</div>
+
+  <!-- 🤖 AI MESSAGE -->
+  {#if msg.role === 0}
+    <div class="flex items-start gap-3 max-w-[80%]">
+
+      <!-- Avatar -->
+      <div class="hidden sm:flex">
+        <MessageAvatar role={msg.role} />
+      </div>
+
+      <!-- Bubble -->
+      <div class="bg-[#132B4F] border border-gray-700 text-white px-4 py-3 rounded-2xl shadow-md whitespace-pre-line break-words leading-6 text-[0.9rem]">
+        {@html msg.content}
+      </div>
+
+    </div>
+
+  <!-- 👤 USER MESSAGE -->
+  {:else}
+    <div class="flex items-start gap-3 max-w-[80%] flex-row-reverse">
+
+      <!-- Avatar -->
+      <div class="hidden sm:flex">
+        <MessageAvatar role={msg.role} />
+      </div>
+
+      <!-- Bubble -->
+      <div class="bg-[#FF6A00] text-white px-4 py-3 rounded-2xl shadow-lg whitespace-pre-line break-words leading-6 text-[0.9rem]">
+        {@html msg.content}
+      </div>
+
+    </div>
+  {/if}
+
 </div>
+
+<!-- ⏱️ RESPONSE TIME -->
 {#if time}
-	<div>
-		<MessageTimer
-			{time}
-			on:handleTop={() => {
-				dispatch("scrollTop");
-			}}
-		/>
-	</div>
+  <div class="flex justify-center text-xs text-gray-400 mt-1">
+    <MessageTimer
+      {time}
+      on:handleTop={() => dispatch("scrollTop")}
+    />
+  </div>
 {/if}
 
 <style>
-	.wrap-style {
-		word-wrap: break-word;
-		word-break: break-all;
-	}
+  div {
+    word-wrap: break-word;
+    word-break: break-word;
+  }
 </style>
