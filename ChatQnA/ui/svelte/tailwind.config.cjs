@@ -1,43 +1,47 @@
-// Copyright (c) 2024 Intel Corporation
-//
-// Licensed under the Apache License, Version 2.0 (the "License");
-// you may not use this file except in compliance with the License.
-// You may obtain a copy of the License at
-//
-//    http://www.apache.org/licenses/LICENSE-2.0
-//
-// Unless required by applicable law or agreed to in writing, software
-// distributed under the License is distributed on an "AS IS" BASIS,
-// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-// See the License for the specific language governing permissions and
-// limitations under the License.
-
+/** @type {import('tailwindcss').Config} */
 const config = {
-	content: ["./src/**/*.{html,js,svelte,ts}", "./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}"],
+  content: [
+    "./src/**/*.{html,js,svelte,ts}",
+    "./node_modules/flowbite-svelte/**/*.{html,js,svelte,ts}",
+  ],
 
-	plugins: [require("flowbite/plugin")],
+  darkMode: "class",
 
-	darkMode: "class",
+  plugins: [require("flowbite/plugin")],
 
-	theme: {
-		extend: {
-			colors: {
-				// flowbite-svelte
-				primary: {
-					50: "#FFF5F2",
-					100: "#FFF1EE",
-					200: "#FFE4DE",
-					300: "#FFD5CC",
-					400: "#FFBCAD",
-					500: "#FE795D",
-					600: "#EF562F",
-					700: "#EB4F27",
-					800: "#CC4522",
-					900: "#A5371B",
-				},
-			},
-		},
-	},
+  theme: {
+    extend: {
+      colors: {
+        /* 🔶 BRAND COLORS */
+        primary: "#FF6A00",        // Orange
+        primaryHover: "#E65C00",
+
+        /* 🔵 BACKGROUND */
+        darkBlue: "#0B1F3A",
+        darkBlueLight: "#132B4F",
+
+        /* ⚪ TEXT */
+        textPrimary: "#FFFFFF",
+        textSecondary: "#9CA3AF",
+
+        /* 🧊 UI */
+        borderDark: "#374151",
+      },
+
+      fontFamily: {
+        sans: ["Inter", "sans-serif"],
+      },
+
+      boxShadow: {
+        premium: "0 10px 30px rgba(0,0,0,0.4)",
+      },
+
+      borderRadius: {
+        xl: "1rem",
+        "2xl": "1.5rem",
+      },
+    },
+  },
 };
 
 module.exports = config;
